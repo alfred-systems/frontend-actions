@@ -5,10 +5,9 @@ on:
       base-path:
         required: true
         type: string
+    secrets:
       distribution-id:
         required: true
-        type: string
-    secrets:
       aws-access-key-id:
         required: true
       aws-secret-access-key:
@@ -28,4 +27,4 @@ jobs:
           aws-region: ${{ secrets.aws-region }}
       - name: Clear CloudFront Content
         run: |
-          aws lambda invoke --function-name clear-cloudfront-cache-by-github-action --cli-binary-format raw-in-base64-out --payload '{ "distribution_id": "${{ inputs.distribution-id }}", "items": ["/${{ inputs.base-path }}/*"] }' /dev/stdout
+          aws lambda invoke --function-name clear-cloudfront-cache-by-github-action --cli-binary-format raw-in-base64-out --payload '{ "distribution_id": "${{ secrets.distribution-id }}", "items": ["/${{ inputs.base-path }}/*"] }' /dev/stdout
